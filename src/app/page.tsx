@@ -88,7 +88,7 @@ export default function Home() {
         <div className="flex-1 flex relative" onMouseLeave={() => { if (!isEditMode) setHoveredIdx(null); }}>
           
           {/* Left Content */}
-          <div className={`relative z-10 w-full lg:w-[50%] flex flex-col justify-center px-4 sm:px-6 lg:px-12 xl:px-20 pb-32 pt-10 pointer-events-none transition-all duration-[1000ms] ease-out ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'} ${hoveredIdx !== null && mounted ? 'opacity-0 -translate-x-12' : ''}`}>
+          <div className={`relative z-10 w-full lg:w-[50%] flex flex-col justify-center px-4 sm:px-6 lg:px-12 xl:px-20 pb-32 pt-10 pointer-events-none transition-all duration-[1000ms] ease-out ${!mounted ? 'opacity-0 translate-y-12' : hoveredIdx !== null ? 'opacity-0 -translate-x-12' : 'opacity-100 translate-y-0'}`}>
             
             {/* CSS Grid Pattern Background */}
             <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#000 1.5px, transparent 1.5px)', backgroundSize: '32px 32px' }}></div>
@@ -290,7 +290,7 @@ export default function Home() {
         </div>
 
         {/* Floating Search Bar */}
-        <div className={`absolute bottom-24 left-6 right-6 lg:left-12 lg:right-12 xl:left-24 xl:right-24 z-20 transition-all duration-[1000ms] ease-out ${mounted ? 'opacity-100 translate-y-0 delay-500' : 'opacity-0 translate-y-16'} ${hoveredIdx !== null && mounted ? 'opacity-0 translate-y-12 pointer-events-none delay-0' : ''}`}>
+        <div className={`absolute bottom-24 left-6 right-6 lg:left-12 lg:right-12 xl:left-24 xl:right-24 z-20 transition-all duration-[1000ms] ease-out ${!mounted ? 'opacity-0 translate-y-16' : hoveredIdx !== null ? 'opacity-0 translate-y-12 pointer-events-none delay-0' : 'opacity-100 translate-y-0 delay-500'}`}>
           <div className="bg-white rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.08)] p-3 flex flex-col lg:flex-row items-center gap-4 border border-slate-100">
             
             <div className="flex-1 flex items-center bg-slate-50/50 rounded-xl px-4 py-3 border border-transparent focus-within:border-blue-200 focus-within:bg-white transition-all w-full">
