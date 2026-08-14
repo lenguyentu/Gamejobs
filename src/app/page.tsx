@@ -1,11 +1,22 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, MapPin, ChevronRight, Star, Building2, Clock, DollarSign, Briefcase, Users, Globe, LayoutGrid, Code, Gamepad2, Palette, Mic, CheckSquare, Settings, Megaphone, MoreHorizontal, Target, Paintbrush, Film, Terminal, Bug, TrendingUp } from 'lucide-react';
 import Image from 'next/image';
 
 export default function Home() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [entranceDone, setEntranceDone] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const timer = setTimeout(() => {
+      setEntranceDone(true);
+    }, 2500);
+    return () => clearTimeout(timer);
+  }, []);
+
   const [bgPositions, setBgPositions] = useState([
     { x: 10, y: 110 },
     { x: 90, y: 125 },
@@ -77,7 +88,7 @@ export default function Home() {
         <div className="flex-1 flex relative" onMouseLeave={() => { if (!isEditMode) setHoveredIdx(null); }}>
           
           {/* Left Content */}
-          <div className={`relative z-10 w-full lg:w-[50%] flex flex-col justify-center px-4 sm:px-6 lg:px-12 xl:px-20 pb-32 pt-10 pointer-events-none transition-all duration-[1200ms] ease-in-out ${hoveredIdx !== null ? 'opacity-0 -translate-x-12' : ''}`}>
+          <div className={`relative z-10 w-full lg:w-[50%] flex flex-col justify-center px-4 sm:px-6 lg:px-12 xl:px-20 pb-32 pt-10 pointer-events-none transition-all duration-[1000ms] ease-out ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'} ${hoveredIdx !== null && mounted ? 'opacity-0 -translate-x-12' : ''}`}>
             
             {/* CSS Grid Pattern Background */}
             <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#000 1.5px, transparent 1.5px)', backgroundSize: '32px 32px' }}></div>
@@ -159,8 +170,11 @@ export default function Home() {
                ].map((cat: any, idx) => (
                  <div 
                    key={idx} 
-                   className={`diagonal-slice relative overflow-hidden rounded-3xl shadow-lg transition-all duration-[1200ms] ease-in-out min-w-0 ${hoveredIdx === idx ? 'z-10' : ''}`}
-                   style={{ flex: hoveredIdx === idx ? '230 1 0%' : '1 1 0%' }}
+                   className={`diagonal-slice relative overflow-hidden rounded-3xl shadow-lg transition-all duration-[1200ms] ease-in-out min-w-0 ${hoveredIdx === idx ? 'z-10' : ''} ${mounted ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-[150px]'}`}
+                   style={{ 
+                     flex: hoveredIdx === idx ? '230 1 0%' : '1 1 0%',
+                     transitionDelay: entranceDone ? '0ms' : `${idx * 150 + 200}ms`
+                   }}
                  >
                    {/* Image/Video Background */}
                    {cat.video ? (
@@ -276,7 +290,7 @@ export default function Home() {
         </div>
 
         {/* Floating Search Bar */}
-        <div className={`absolute bottom-24 left-6 right-6 lg:left-12 lg:right-12 xl:left-24 xl:right-24 z-20 transition-all duration-[1200ms] ease-in-out ${hoveredIdx !== null ? 'opacity-0 translate-y-12 pointer-events-none' : ''}`}>
+        <div className={`absolute bottom-24 left-6 right-6 lg:left-12 lg:right-12 xl:left-24 xl:right-24 z-20 transition-all duration-[1000ms] ease-out ${mounted ? 'opacity-100 translate-y-0 delay-500' : 'opacity-0 translate-y-16'} ${hoveredIdx !== null && mounted ? 'opacity-0 translate-y-12 pointer-events-none delay-0' : ''}`}>
           <div className="bg-white rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.08)] p-3 flex flex-col lg:flex-row items-center gap-4 border border-slate-100">
             
             <div className="flex-1 flex items-center bg-slate-50/50 rounded-xl px-4 py-3 border border-transparent focus-within:border-blue-200 focus-within:bg-white transition-all w-full">
